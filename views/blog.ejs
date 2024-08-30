@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title><%= blog.title %></title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .profile-container img {
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 2px solid #007bff;
+        }
+
+        .profile-container p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comments-section h3 {
+            margin-top: 0;
+        }
+
+        .card {
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .card-footer {
+            padding: 10px;
+            background-color: #e9ecef;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Additional Styles */
+        pre, p {
+            white-space: pre-wrap; /* Allows text to wrap properly */
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/nav') %>
+
+    <div class="container mt-3">
+        <h1><%= blog.title %></h1>
+        <% if (blog.coverImageURL) { %>
+            <img src="<%= blog.coverImageURL %>" class="img-fluid mb-3" alt="Cover Image">
+        <% } %>
+        <pre><p><%= blog.body %></p></pre>
+        <a href="/" class="btn btn-secondary">Back to Blog List</a>
+    </div>
+
+    <div class="container mt-3">
+        <% if (blog.createdBy) { %>
+            <div class="profile-container">
+                <img src="<%= blog.createdBy.profileImageURL %>" width="50px" alt="<%= blog.createdBy.fullName %>" />
+                <p><%= blog.createdBy.fullName %></p>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="container mt-3 comments-section">
+        <h1>Comments</h1>
+        
+        <!-- Form for submitting a new comment -->
+        <form action="/blog/comment/<%= blog._id %>" method="POST">
+            <div class="mb-3">
+                <label for="content" class="form-label">Your Comment</label>
+                <textarea id="content" name="content" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    
+        <!-- Display existing comments -->
+        <div class="mt-4">
+            <h3>Existing Comments:</h3>
+            <% if (comments && comments.length > 0) { %>
+                <ul class="list-unstyled">
+                    <% comments.forEach(comment => { %>
+                        <li class="mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><%= comment.content %></p>
+                                    <footer class="card-footer">
+                                        Posted by <%= comment.createdBy.fullName %> on <%= comment.createdAt.toLocaleDateString() %>
+                                    </footer>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p>No comments yet.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <%- include('partials/script') %>
+</body>
+</html>

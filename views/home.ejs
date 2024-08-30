@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Homepage</title>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-3 mx-auto row row-cols-4">
+        <% if (blogs && blogs.length > 0) { %>
+            <% blogs.forEach(blog => { %>
+                <div class="col">
+                    <div class="card " style="width: auto;">
+                        <img src="<%= blog.coverImageURL %>" class="card-img-top" width="700px">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= blog.title %></h5>
+                            <pre><a href="/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+                
+            <% }) %>
+        <% } else { %>
+            <div class="col-12 text-center">
+                <p>Please sign in to view the content.</p>
+            </div>
+        <% } %>
+    </div>
+
+
+    <%- include('./partials/script') %>
+</body>
+</html>
