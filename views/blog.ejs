@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= blog.title %></title>
     <style>
         /* General Styling */
@@ -24,7 +25,6 @@
             margin-bottom: 20px;
         }
 
-        /* Profile Container */
         .profile-container {
             display: flex;
             align-items: center;
@@ -46,7 +46,6 @@
             color: #555;
         }
 
-        /* Comments Section */
         .comments-section {
             background-color: #fff;
             border-radius: 5px;
@@ -54,15 +53,19 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .comments-section h3 {
-            margin-top: 0;
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .card {
+            flex: 1 1 calc(33.333% - 10px);
             margin-bottom: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
             overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .card-body {
@@ -94,9 +97,10 @@
             background-color: #0056b3;
         }
 
-        /* Additional Styles */
-        pre, p {
-            white-space: pre-wrap; /* Allows text to wrap properly */
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
@@ -124,7 +128,6 @@
     <div class="container mt-3 comments-section">
         <h1>Comments</h1>
         
-        <!-- Form for submitting a new comment -->
         <form action="/blog/comment/<%= blog._id %>" method="POST">
             <div class="mb-3">
                 <label for="content" class="form-label">Your Comment</label>
@@ -133,24 +136,21 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     
-        <!-- Display existing comments -->
         <div class="mt-4">
             <h3>Existing Comments:</h3>
             <% if (comments && comments.length > 0) { %>
-                <ul class="list-unstyled">
+                <div class="card-container">
                     <% comments.forEach(comment => { %>
-                        <li class="mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p><%= comment.content %></p>
-                                    <footer class="card-footer">
-                                        Posted by <%= comment.createdBy.fullName %> on <%= comment.createdAt.toLocaleDateString() %>
-                                    </footer>
-                                </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <p><%= comment.content %></p>
+                                <footer class="card-footer">
+                                    Posted by <%= comment.createdBy.fullName %> on <%= comment.createdAt.toLocaleDateString() %>
+                                </footer>
                             </div>
-                        </li>
+                        </div>
                     <% }) %>
-                </ul>
+                </div>
             <% } else { %>
                 <p>No comments yet.</p>
             <% } %>
