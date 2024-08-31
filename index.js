@@ -12,7 +12,7 @@ const PORT = 8000;
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/blogify', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://muneeb24es:rHHcqVD3AgN1pbvu@cluster0.fh22r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
